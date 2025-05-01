@@ -1,7 +1,6 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
 import { PaymentSchedule } from '../models/PaymentSchedule';
-//import Big from 'big.js';
 
 interface PaymentScheduleTableProps {
   schedule: PaymentSchedule;

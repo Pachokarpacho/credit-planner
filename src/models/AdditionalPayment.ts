@@ -5,9 +5,9 @@ export class AdditionalPayment {
   amount: Big;
   recalcType: 'reduceTerm' | 'reducePayment';
 
-  constructor(month: number, amount: number, recalcType: 'reduceTerm' | 'reducePayment') {
+  constructor(month: number, amount: Big, recalcType: 'reduceTerm' | 'reducePayment') {
     this.month = month;
-    this.amount = new Big(amount);
+    this.amount = amount;
     this.recalcType = recalcType;
   }
 }

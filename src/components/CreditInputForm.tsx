@@ -21,7 +21,6 @@ const CreditInputForm: React.FC = () => {
       setController(null);
       return;
     }
-
     const loan = new Loan(loanAmount, annualRate, termMonths);
     const newSchedule = new PaymentSchedule(loan, paymentType);
     const newController = new RecalculationController(loan, newSchedule);
@@ -54,8 +53,14 @@ const CreditInputForm: React.FC = () => {
       setPaymentType(value);
     } else {
       console.warn(`Unexpected payment type: ${value}`);
-      setPaymentType('annuity'); // Значение по умолчанию
+      setPaymentType('annuity');
     }
+  };
+
+  const handleUpdateSchedule = (updatedSchedule: PaymentSchedule) => {
+    setSchedule(updatedSchedule);
+    const newController = new RecalculationController(updatedSchedule.loan, updatedSchedule);
+    setController(newController);
   };
 
   return (
@@ -118,7 +123,7 @@ const CreditInputForm: React.FC = () => {
       {schedule && (
         <>
           <RecalculationInputForm onAddPayment={handleAddPayment} maxMonth={schedule.loan.termMonths} />
-          <PaymentScheduleTable schedule={schedule} />
+          <PaymentScheduleTable schedule={schedule} onUpdateSchedule={handleUpdateSchedule} /> {/* Добавлен onUpdateSchedule */}
           <div>
             {schedule.additionalPayments.map((payment, index) => (
               <Button
@@ -138,114 +143,3 @@ const CreditInputForm: React.FC = () => {
 };
 
 export default CreditInputForm;
-
-// import React, { useState } from 'react';
-// import { Form, Button, Row, Col } from 'react-bootstrap';
-// import Big from 'big.js';
-// import { Loan } from '../models/Loan';
-// import { PaymentSchedule } from '../models/PaymentSchedule';
-// import { RecalculationController } from '../controllers/RecalculationController';
-// import PaymentScheduleTable from './PaymentScheduleTable';
-// import RecalculationInputForm from './RecalculationInputForm';
-
-// const CreditInputForm: React.FC = () => {
-//   const [loanAmount, setLoanAmount] = useState<number>(0);
-//   const [annualRate, setAnnualRate] = useState<number>(0);
-//   const [termMonths, setTermMonths] = useState<number>(0);
-//   const [paymentType, setPaymentType] = useState<string>('annuity');
-//   const [schedule, setSchedule] = useState<PaymentSchedule | null>(null);
-//   const [controller, setController] = useState<RecalculationController | null>(null);
-
-//   const handleCalculate = () => {
-//     if (loanAmount <= 0 || annualRate <= 0 || termMonths <= 0) {
-//       setSchedule(null);
-//       setController(null);
-//       return;
-//     }
-
-//     const loan = new Loan(loanAmount, annualRate, termMonths);
-//     const newSchedule = new PaymentSchedule(loan, paymentType);
-//     const newController = new RecalculationController(loan, newSchedule);
-//     setSchedule(newSchedule);
-//     setController(newController);
-//   };
-
-//   const handleAddPayment = (monthIndex: number, extra: Big, recalcType: 'reduceTerm' | 'reducePayment') => {
-//     if (!controller) {
-//       console.log('Controller is null!');
-//       return;
-//     }
-//     console.log('Calling handleRecalcChange:', { monthIndex, extra: extra.toString(), recalcType });
-//     controller.handleRecalcChange(monthIndex, extra, recalcType);
-//     const updatedSchedule = controller.getUpdatedSchedule();
-//     setSchedule(updatedSchedule);
-//   };
-
-//   return (
-//     <div>
-//       <Form>
-//         <Row>
-//           <Col md={6}>
-//             <Form.Group className="mb-3">
-//               <Form.Label>Сумма кредита (руб.)</Form.Label>
-//               <Form.Control
-//                 type="number"
-//                 value={loanAmount}
-//                 onChange={(e) => setLoanAmount(Number(e.target.value))}
-//                 placeholder="Введите сумму"
-//               />
-//             </Form.Group>
-//           </Col>
-//           <Col md={6}>
-//             <Form.Group className="mb-3">
-//               <Form.Label>Годовая ставка (%)</Form.Label>
-//               <Form.Control
-//                 type="number"
-//                 value={annualRate}
-//                 onChange={(e) => setAnnualRate(Number(e.target.value))}
-//                 placeholder="Введите ставку"
-//               />
-//             </Form.Group>
-//           </Col>
-//         </Row>
-//         <Row>
-//           <Col md={6}>
-//             <Form.Group className="mb-3">
-//               <Form.Label>Срок кредита (месяцы)</Form.Label>
-//               <Form.Control
-//                 type="number"
-//                 value={termMonths}
-//                 onChange={(e) => setTermMonths(Number(e.target.value))}
-//                 placeholder="Введите срок"
-//               />
-//             </Form.Group>
-//           </Col>
-//           <Col md={6}>
-//             <Form.Group className="mb-3">
-//               <Form.Label>Тип платежа</Form.Label>
-//               <Form.Select
-//                 value={paymentType}
-//                 onChange={(e) => setPaymentType(e.target.value)}
-//               >
-//                 <option value="annuity">Аннуитетный</option>
-//                 <option value="differentiated">Дифференцированный</option>
-//               </Form.Select>
-//             </Form.Group>
-//           </Col>
-//         </Row>
-//         <Button variant="primary" onClick={handleCalculate}>
-//           Рассчитать
-//         </Button>
-//       </Form>
-
-//       {schedule && (
-//         <>
-//           <RecalculationInputForm onAddPayment={handleAddPayment} maxMonth={termMonths} />
-//           <PaymentScheduleTable schedule={schedule} />
-//         </>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default CreditInputForm;

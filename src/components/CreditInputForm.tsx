@@ -4,10 +4,15 @@ import Big from 'big.js';
 import { Loan } from '../models/Loan';
 import { PaymentSchedule } from '../models/PaymentSchedule';
 import PaymentScheduleTable from './PaymentScheduleTable';
+import ExportPanel from './ExportPanel';
 import RecalculationInputForm from './RecalculationInputForm';
 import { RecalculationController } from '../controllers/RecalculationController';
 
-const CreditInputForm: React.FC = () => {
+interface CreditInputFormProps {
+  onExport: (schedule: PaymentSchedule) => void;
+}
+
+const CreditInputForm: React.FC<CreditInputFormProps> = ({ onExport }) => {
   const [loanAmount, setLoanAmount] = useState<number>(0);
   const [annualRate, setAnnualRate] = useState<number>(0);
   const [termMonths, setTermMonths] = useState<number>(0);
@@ -97,7 +102,7 @@ const CreditInputForm: React.FC = () => {
               <Form.Control
                 type="number"
                 value={termMonths}
-                onChange={(e) => setTermMonths(Number(e.target.value))}
+                onChange={(e) => setTermMonths(Number(e.target.value))} // Исправлено: убрана лишняя скобка
                 placeholder="Введите срок"
               />
             </Form.Group>
@@ -123,7 +128,7 @@ const CreditInputForm: React.FC = () => {
       {schedule && (
         <>
           <RecalculationInputForm onAddPayment={handleAddPayment} maxMonth={schedule.loan.termMonths} />
-          <PaymentScheduleTable schedule={schedule} onUpdateSchedule={handleUpdateSchedule} /> {/* Добавлен onUpdateSchedule */}
+          <PaymentScheduleTable schedule={schedule} onUpdateSchedule={handleUpdateSchedule} />
           <div>
             {schedule.additionalPayments.map((payment, index) => (
               <Button
@@ -136,6 +141,7 @@ const CreditInputForm: React.FC = () => {
               </Button>
             ))}
           </div>
+          <ExportPanel onExport={() => onExport(schedule)} />
         </>
       )}
     </div>

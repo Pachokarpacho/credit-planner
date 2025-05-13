@@ -27,6 +27,7 @@ const PaymentScheduleTable: React.FC<PaymentScheduleTableProps> = ({ schedule, o
 
   const handleExtraPaymentChange = (month: number, value: string) => {
     const amount = value ? new Big(value) : new Big(0);
+    if (amount.lt(0)) return;
     setExtraPayments((prev) => {
       const updatedPayments = {
         ...prev,
@@ -81,7 +82,6 @@ const PaymentScheduleTable: React.FC<PaymentScheduleTableProps> = ({ schedule, o
     }
   };
 
-  // Убираем фильтрацию, показываем все платежи из localSchedule.payments
   const filteredPayments = localSchedule.payments;
 
   return (
@@ -102,9 +102,9 @@ const PaymentScheduleTable: React.FC<PaymentScheduleTableProps> = ({ schedule, o
         {filteredPayments.map((payment) => (
           <tr key={payment.month}>
             <td>{payment.month}</td>
-            <td>{payment.amount.toFixed(2)}</td>
-            <td>{payment.interest.toFixed(2)}</td>
-            <td>{payment.principal.toFixed(2)}</td>
+            <td>{new Big(payment.amount).toFixed(2)}</td>
+            <td>{new Big(payment.interest).toFixed(2)}</td>
+            <td>{new Big(payment.principal).toFixed(2)}</td>
             <td>
               <input
                 type="number"
@@ -126,8 +126,8 @@ const PaymentScheduleTable: React.FC<PaymentScheduleTableProps> = ({ schedule, o
                 <option value="reducePayment">Уменьшение платежа</option>
               </select>
             </td>
-            <td>{payment.balance.toFixed(2)}</td>
-            <td>{payment.balanceAfterRepayment.toFixed(2)}</td>
+            <td>{new Big(payment.balance).toFixed(2)}</td>
+            <td>{new Big(payment.balanceAfterRepayment).toFixed(2)}</td>
           </tr>
         ))}
       </tbody>

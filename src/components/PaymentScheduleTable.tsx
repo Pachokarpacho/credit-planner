@@ -3,20 +3,21 @@ import { Table, Button } from 'react-bootstrap';
 import { PaymentSchedule } from '../models/PaymentSchedule';
 import Big from 'big.js';
 import { RecalculationController } from '../controllers/RecalculationController';
+import '../index.css';
 
 interface PaymentScheduleTableProps {
   schedule: PaymentSchedule;
   onUpdateSchedule: (updatedSchedule: PaymentSchedule) => void;
   onRemovePayment: (month: number) => void;
+  onExport: () => void; // Добавляем пропс для экспорта
 }
 
-const PaymentScheduleTable: React.FC<PaymentScheduleTableProps> = ({ schedule, onUpdateSchedule, onRemovePayment }) => {
+const PaymentScheduleTable: React.FC<PaymentScheduleTableProps> = ({ schedule, onUpdateSchedule, onRemovePayment, onExport }) => {
   const [extraPayments, setExtraPayments] = useState<{ [key: number]: { amount: Big; recalcType: 'reduceTerm' | 'reducePayment' | null } }>({});
   const [localSchedule, setLocalSchedule] = useState(schedule);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [rowsPerPage, setRowsPerPage] = useState<number>(12);
 
-  // Эффект для синхронизации localSchedule и extraPayments
   useEffect(() => {
     setLocalSchedule(schedule);
     const updatedExtraPayments: { [key: number]: { amount: Big; recalcType: 'reduceTerm' | 'reducePayment' | null } } = {};
@@ -29,14 +30,13 @@ const PaymentScheduleTable: React.FC<PaymentScheduleTableProps> = ({ schedule, o
     setExtraPayments(updatedExtraPayments);
   }, [schedule]);
 
-  // Отдельный эффект для проверки текущей страницы
   useEffect(() => {
     const totalRows = localSchedule.payments.length;
     const totalPages = rowsPerPage === 0 ? 1 : Math.ceil(totalRows / rowsPerPage);
     if (currentPage > totalPages && totalPages > 0) {
       setCurrentPage(totalPages);
     }
-  }, [localSchedule, rowsPerPage, currentPage]); // Теперь currentPage включен
+  }, [localSchedule, rowsPerPage, currentPage]);
 
   const handleExtraPaymentChange = (month: number, value: string) => {
     const amount = value ? new Big(value) : new Big(0);
@@ -153,10 +153,8 @@ const PaymentScheduleTable: React.FC<PaymentScheduleTableProps> = ({ schedule, o
       pageButtons.push(
         <Button
           key={1}
-          variant="outline-primary"
+          className={`page-button ${currentPage === 1 ? 'active' : ''}`}
           onClick={() => setCurrentPage(1)}
-          className="me-1"
-          style={{ minWidth: '40px' }}
         >
           1
         </Button>
@@ -170,10 +168,8 @@ const PaymentScheduleTable: React.FC<PaymentScheduleTableProps> = ({ schedule, o
       pageButtons.push(
         <Button
           key={i}
-          variant={currentPage === i ? 'primary' : 'outline-primary'}
+          className={`page-button ${currentPage === i ? 'active' : ''}`}
           onClick={() => setCurrentPage(i)}
-          className="me-1"
-          style={{ minWidth: '40px' }}
         >
           {i}
         </Button>
@@ -187,10 +183,8 @@ const PaymentScheduleTable: React.FC<PaymentScheduleTableProps> = ({ schedule, o
       pageButtons.push(
         <Button
           key={totalPages}
-          variant="outline-primary"
+          className={`page-button ${currentPage === totalPages ? 'active' : ''}`}
           onClick={() => setCurrentPage(totalPages)}
-          className="me-1"
-          style={{ minWidth: '40px' }}
         >
           {totalPages}
         </Button>
@@ -201,8 +195,8 @@ const PaymentScheduleTable: React.FC<PaymentScheduleTableProps> = ({ schedule, o
   };
 
   return (
-    <div className="mt-3">
-      <Table striped bordered hover>
+    <div className="table-container">
+      <Table>
         <thead>
           <tr>
             <th>Месяц</th>
@@ -254,21 +248,27 @@ const PaymentScheduleTable: React.FC<PaymentScheduleTableProps> = ({ schedule, o
         </tbody>
       </Table>
 
-      <div className="d-flex justify-content-between align-items-center mt-3">
-        <div>
-          <span>Записей на странице: </span>
+      <div className="footer-controls">
+        <div className="rows-per-page-container">
+          <span>Записей на странице:</span>
           <select
             value={rowsPerPage === 0 ? 'all' : rowsPerPage.toString()}
             onChange={handleRowsPerPageChange}
             className="form-select"
-            style={{ display: 'inline-block', width: 'auto' }}
           >
             <option value="12">12</option>
             <option value="24">24</option>
             <option value="all">Вся таблица</option>
           </select>
         </div>
-        <div>{renderPageButtons()}</div>
+        <div className="pagination-container">
+          {renderPageButtons()}
+        </div>
+        <div className="export-button-container">
+          <Button variant="primary" onClick={onExport} className="btn-primary">
+            Экспорт в PDF
+          </Button>
+        </div>
       </div>
     </div>
   );

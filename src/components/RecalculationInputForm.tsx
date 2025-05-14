@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Form, Button, Row, Col } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 import Big from 'big.js';
+import '../index.css';
 
 interface RecalculationInputFormProps {
   onAddPayment: (monthIndex: number, extra: Big, recalcType: 'reduceTerm' | 'reducePayment') => void;
@@ -8,148 +9,62 @@ interface RecalculationInputFormProps {
 }
 
 const RecalculationInputForm: React.FC<RecalculationInputFormProps> = ({ onAddPayment, maxMonth }) => {
-  const [month, setMonth] = useState<number>(1);
-  const [amount, setAmount] = useState<number>(0);
-  const [recalculationType, setRecalculationType] = useState<'reduceTerm' | 'reducePayment'>('reduceTerm');
+  const [monthIndex, setMonthIndex] = useState<number>(1);
+  const [extraPayment, setExtraPayment] = useState<string>('');
+  const [recalcType, setRecalcType] = useState<'reduceTerm' | 'reducePayment'>('reduceTerm');
 
-  const handleAddPayment = () => {
-    if (month <= 0 || amount <= 0) {
-      alert('Пожалуйста, введите корректные данные.');
-      return;
-    }
-    if (month > maxMonth) {
-      alert(`Месяц не может быть больше ${maxMonth}.`);
-      return;
-    }
-
-    const extra = new Big(amount);
-    onAddPayment(month - 1, extra, recalculationType);
-    setMonth(1);
-    setAmount(0);
+  const handleSubmit = () => {
+    if (monthIndex < 1 || monthIndex > maxMonth || !extraPayment || Number(extraPayment) <= 0) return;
+    onAddPayment(monthIndex-1, new Big(extraPayment), recalcType);
+    setExtraPayment('');
+    setMonthIndex(1);
   };
 
   return (
-    <Form className="mt-4">
-      <h4>Добавить дополнительный платеж</h4>
-      <Row>
-        <Col md={4}>
-          <Form.Group className="mb-3">
-            <Form.Label>Месяц платежа</Form.Label>
+    <div className="form-container mb-3">
+      <Form>
+        <div className="form-row">
+          <Form.Group className="form-group">
+            <Form.Label className="form-label">Месяц</Form.Label>
             <Form.Control
               type="number"
-              value={month}
-              onChange={(e) => setMonth(Number(e.target.value))}
+              value={monthIndex}
+              onChange={(e) => setMonthIndex(Number(e.target.value))}
               placeholder="Введите месяц"
+              className="form-control"
+              min="1"
+              max={maxMonth}
             />
           </Form.Group>
-        </Col>
-        <Col md={4}>
-          <Form.Group className="mb-3">
-            <Form.Label>Сумма (руб.)</Form.Label>
+          <Form.Group className="form-group">
+            <Form.Label className="form-label">Доп. платеж (руб.)</Form.Label>
             <Form.Control
               type="number"
-              value={amount}
-              onChange={(e) => setAmount(Number(e.target.value))}
+              value={extraPayment}
+              onChange={(e) => setExtraPayment(e.target.value)}
               placeholder="Введите сумму"
+              className="form-control"
+              min="0"
             />
           </Form.Group>
-        </Col>
-        <Col md={4}>
-          <Form.Group className="mb-3">
-            <Form.Label>Тип перерасчета</Form.Label>
+          <Form.Group className="form-group">
+            <Form.Label className="form-label">Тип перерасчета</Form.Label>
             <Form.Select
-              value={recalculationType}
-              onChange={(e) => setRecalculationType(e.target.value as 'reduceTerm' | 'reducePayment')}
+              value={recalcType}
+              onChange={(e) => setRecalcType(e.target.value as 'reduceTerm' | 'reducePayment')}
+              className="form-select"
             >
               <option value="reduceTerm">Уменьшение срока</option>
               <option value="reducePayment">Уменьшение платежа</option>
             </Form.Select>
           </Form.Group>
-        </Col>
-      </Row>
-      <Button variant="success" onClick={handleAddPayment}>
-        Добавить платеж
-      </Button>
-    </Form>
+          <Button variant="primary" onClick={handleSubmit} className="btn-primary">
+            Добавить платеж
+          </Button>
+        </div>
+      </Form>
+    </div>
   );
 };
 
 export default RecalculationInputForm;
-// import React, { useState } from 'react';
-// import { Form, Button, Row, Col } from 'react-bootstrap';
-// import Big from 'big.js';
-
-// interface RecalculationInputFormProps {
-//   onAddPayment: (monthIndex: number, extra: Big, recalcType: 'reduceTerm' | 'reducePayment') => void;
-//   maxMonth: number; // Добавляем maxMonth в интерфейс
-// }
-
-// const RecalculationInputForm: React.FC<RecalculationInputFormProps> = ({ onAddPayment, maxMonth }) => {
-//   const [month, setMonth] = useState<number>(1);
-//   const [amount, setAmount] = useState<number>(0);
-//   const [recalculationType, setRecalculationType] = useState<'reduceTerm' | 'reducePayment'>('reduceTerm');
-
-//   const handleAddPayment = () => {
-//     if (month <= 0 || amount <= 0) {
-//       alert('Пожалуйста, введите корректные данные.');
-//       return;
-//     }
-//     if (month > maxMonth) {
-//       alert(`Месяц не может быть больше ${maxMonth}.`);
-//       return;
-//     }
-
-//     const extra = new Big(amount);
-//     console.log('Adding payment:', { monthIndex: month - 1, extra: extra.toString(), recalcType: recalculationType });
-//     onAddPayment(month - 1, extra, recalculationType);
-//     setMonth(1);
-//     setAmount(0);
-//   };
-
-//   return (
-//     <Form className="mt-4">
-//       <h4>Добавить дополнительный платеж</h4>
-//       <Row>
-//         <Col md={4}>
-//           <Form.Group className="mb-3">
-//             <Form.Label>Месяц платежа</Form.Label>
-//             <Form.Control
-//               type="number"
-//               value={month}
-//               onChange={(e) => setMonth(Number(e.target.value))}
-//               placeholder="Введите месяц"
-//             />
-//           </Form.Group>
-//         </Col>
-//         <Col md={4}>
-//           <Form.Group className="mb-3">
-//             <Form.Label>Сумма (руб.)</Form.Label>
-//             <Form.Control
-//               type="number"
-//               value={amount}
-//               onChange={(e) => setAmount(Number(e.target.value))}
-//               placeholder="Введите сумму"
-//             />
-//           </Form.Group>
-//         </Col>
-//         <Col md={4}>
-//           <Form.Group className="mb-3">
-//             <Form.Label>Тип перерасчета</Form.Label>
-//             <Form.Select
-//               value={recalculationType}
-//               onChange={(e) => setRecalculationType(e.target.value as 'reduceTerm' | 'reducePayment')}
-//             >
-//               <option value="reduceTerm">Уменьшение срока</option>
-//               <option value="reducePayment">Уменьшение платежа</option>
-//             </Form.Select>
-//           </Form.Group>
-//         </Col>
-//       </Row>
-//       <Button variant="success" onClick={handleAddPayment}>
-//         Добавить платеж
-//       </Button>
-//     </Form>
-//   );
-// };
-
-// export default RecalculationInputForm;

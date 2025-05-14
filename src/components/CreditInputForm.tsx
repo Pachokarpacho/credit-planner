@@ -102,7 +102,7 @@ const CreditInputForm: React.FC<CreditInputFormProps> = ({ onExport }) => {
               <Form.Control
                 type="number"
                 value={termMonths}
-                onChange={(e) => setTermMonths(Number(e.target.value))} // Исправлено: убрана лишняя скобка
+                onChange={(e) => setTermMonths(Number(e.target.value))}
                 placeholder="Введите срок"
               />
             </Form.Group>
@@ -127,9 +127,15 @@ const CreditInputForm: React.FC<CreditInputFormProps> = ({ onExport }) => {
 
       {schedule && (
         <>
+          <div className="mb-3">
+            <ExportPanel onExport={() => onExport(schedule)} />
+          </div>
           <RecalculationInputForm onAddPayment={handleAddPayment} maxMonth={schedule.loan.termMonths} />
-          <ExportPanel onExport={() => onExport(schedule)} />
-          <PaymentScheduleTable schedule={schedule} onUpdateSchedule={handleUpdateSchedule} />
+          <PaymentScheduleTable
+            schedule={schedule}
+            onUpdateSchedule={handleUpdateSchedule}
+            onRemovePayment={handleRemovePayment}
+          />
           <div>
             {schedule.additionalPayments.map((payment, index) => (
               <Button

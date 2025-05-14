@@ -34,7 +34,7 @@ export class ExportController {
       <h2>Информация о кредите</h2>
       <p>Сумма кредита: ${this.schedule.loan.principalAmount.toFixed(2)} руб.</p>
       <p>Годовая ставка: ${this.schedule.loan.annualRate.toFixed(2)}%</p>
-      <p>Срок: ${this.schedule.loan.termMonths} месяцев</p>
+      <p>Срок: ${this.schedule.loan.termMonths} мес.</p>
       <p>Тип платежа: ${this.paymentTypeLabels[this.schedule.paymentType] || this.schedule.paymentType}</p>
       <p>Дата экспорта: ${new Date().toLocaleDateString('ru-RU')}</p>
       <table style="border-collapse: collapse; width: 100%;">

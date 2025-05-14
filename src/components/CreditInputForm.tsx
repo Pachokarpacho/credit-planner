@@ -128,6 +128,7 @@ const CreditInputForm: React.FC<CreditInputFormProps> = ({ onExport }) => {
       {schedule && (
         <>
           <RecalculationInputForm onAddPayment={handleAddPayment} maxMonth={schedule.loan.termMonths} />
+          <ExportPanel onExport={() => onExport(schedule)} />
           <PaymentScheduleTable schedule={schedule} onUpdateSchedule={handleUpdateSchedule} />
           <div>
             {schedule.additionalPayments.map((payment, index) => (
@@ -141,7 +142,6 @@ const CreditInputForm: React.FC<CreditInputFormProps> = ({ onExport }) => {
               </Button>
             ))}
           </div>
-          <ExportPanel onExport={() => onExport(schedule)} />
         </>
       )}
     </div>

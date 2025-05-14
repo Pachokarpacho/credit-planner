@@ -7,42 +7,64 @@ body {
   padding: 20px;
 }
 
-/* Контейнер для форм */
-.forms-container {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-}
-
-/* Стили для формы */
-.form-container {
+/* Общий контейнер для форм */
+.forms-wrapper {
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  flex: 1;
-  min-width: 300px;
+  margin-bottom: 20px;
 }
 
-/* Компактная форма для ввода кредита после расчёта */
-.form-container.compact {
-  flex: 0 0 50%; /* Занимает половину строки */
+/* Контейнер для форм внутри wrapper */
+.forms-container {
+  display: flex;
+  flex-wrap: nowrap; /* Запрещаем обёртывание */
+  position: relative;
+}
+
+/* Стили для формы */
+.form-container {
+  padding: 10px; /* Уменьшаем внутренние отступы */
+  flex: 0 0 50%; /* Точно 50% ширины */
+  border-right: 1px solid #ddd; /* Линия между формами */
+}
+
+/* Убираем линию у последней формы */
+.form-container:last-child {
+  border-right: none;
+}
+
+/* Стили для формы "Данные кредита" */
+.form-container.credit-data {
+  background-color: #fff; /* Белый фон */
+}
+
+/* Стили для формы "Добавить дополнительный платеж" */
+.form-container.extra-payment {
+  background-color: #f8f9fa; /* Слегка серый фон */
 }
 
 /* Заголовки над формами */
 .form-header {
   font-size: 18px;
   font-weight: 500;
-  color: #555;
   margin-bottom: 10px;
+}
+
+.form-container.credit-data .form-header {
+  color: #007bff; /* Синий заголовок для "Данные кредита" */
+}
+
+.form-container.extra-payment .form-header {
+  color: #555; /* Серый заголовок для "Добавить дополнительный платеж" */
 }
 
 /* Стили для формы в ряд */
 .form-row {
   display: flex;
   align-items: flex-end;
-  gap: 10px; /* Уменьшаем расстояние между полями */
+  gap: 8px; /* Ещё уменьшаем расстояние */
   flex-wrap: wrap;
 }
 
@@ -58,14 +80,14 @@ body {
 .form-label {
   font-weight: 500;
   color: #555;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .form-control, .form-select {
   border: 1px solid #ddd;
   border-radius: 8px;
-  padding: 8px; /* Уменьшаем padding для компактности */
-  font-size: 14px; /* Уменьшаем шрифт */
+  padding: 4px; /* Уменьшаем padding */
+  font-size: 12px; /* Уменьшаем шрифт */
   transition: border-color 0.3s, box-shadow 0.3s;
 }
 
@@ -80,8 +102,8 @@ body {
   background-color: #007bff;
   border: none;
   border-radius: 8px;
-  padding: 8px 16px; /* Уменьшаем размер кнопки */
-  font-size: 14px;
+  padding: 6px 12px; /* Уменьшаем размер кнопки */
+  font-size: 12px;
   font-weight: 500;
   transition: background-color 0.3s, transform 0.1s;
 }
@@ -193,7 +215,12 @@ body {
   .forms-container {
     flex-direction: column;
   }
-  .form-container.compact {
+  .form-container {
     flex: 1;
+    border-right: none;
+    border-bottom: 1px solid #ddd; /* Линия снизу на мобильных */
+  }
+  .form-container:last-child {
+    border-bottom: none;
   }
 }

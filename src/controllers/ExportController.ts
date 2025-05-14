@@ -8,7 +8,6 @@ export class ExportController {
     [key: number]: { amount: Big; recalcType: 'reduceTerm' | 'reducePayment' | null };
   };
 
-  // 🔁 Добавлены словари перевода
   private paymentTypeLabels: { [key: string]: string } = {
     annuity: 'Аннуитетный',
     differentiated: 'Дифференцированный',

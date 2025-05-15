@@ -72,7 +72,7 @@ const CreditInputForm: React.FC<CreditInputFormProps> = ({ onExport }) => {
     <div>
       <div className="forms-wrapper">
         <div className="forms-container">
-          <div className={`form-container credit-data ${schedule ? '' : ''}`}>
+          <div className={`form-container credit-data ${schedule ? 'compact' : ''}`}>
             <div className="form-header">Данные кредита</div>
             <Form>
               <div className="form-row">
@@ -125,7 +125,7 @@ const CreditInputForm: React.FC<CreditInputFormProps> = ({ onExport }) => {
           </div>
 
           {schedule && (
-            <div className="form-container extra-payment">
+            <div className="form-container extra-payment compact">
               <div className="form-header">Добавить дополнительный платеж</div>
               <RecalculationInputForm onAddPayment={handleAddPayment} maxMonth={schedule.loan.termMonths} />
             </div>

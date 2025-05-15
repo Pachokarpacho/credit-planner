@@ -19,15 +19,24 @@ body {
 /* Контейнер для форм внутри wrapper */
 .forms-container {
   display: flex;
-  flex-wrap: nowrap; /* Запрещаем обёртывание */
+  flex-wrap: nowrap;
   position: relative;
 }
 
 /* Стили для формы */
 .form-container {
-  padding: 10px; /* Уменьшаем внутренние отступы */
-  flex: 0 0 50%; /* Точно 50% ширины */
-  border-right: 1px solid #ddd; /* Линия между формами */
+  padding: 10px;
+}
+
+/* Состояние до расчёта: форма занимает всю ширину */
+.form-container.credit-data:not(.compact) {
+  flex: 1;
+}
+
+/* Состояние после расчёта: формы делят ширину */
+.form-container.compact {
+  flex: 0 0 49%;
+  border-right: 1px solid #ddd;
 }
 
 /* Убираем линию у последней формы */
@@ -37,12 +46,12 @@ body {
 
 /* Стили для формы "Данные кредита" */
 .form-container.credit-data {
-  background-color: #fff; /* Белый фон */
+  background-color: #fff;
 }
 
 /* Стили для формы "Добавить дополнительный платеж" */
 .form-container.extra-payment {
-  background-color: #f8f9fa; /* Слегка серый фон */
+  background-color: #fff;
 }
 
 /* Заголовки над формами */
@@ -53,18 +62,18 @@ body {
 }
 
 .form-container.credit-data .form-header {
-  color: #007bff; /* Синий заголовок для "Данные кредита" */
+  color: #555;
 }
 
 .form-container.extra-payment .form-header {
-  color: #555; /* Серый заголовок для "Добавить дополнительный платеж" */
+  color: #555;
 }
 
 /* Стили для формы в ряд */
 .form-row {
   display: flex;
   align-items: flex-end;
-  gap: 8px; /* Ещё уменьшаем расстояние */
+  gap: 40px;
   flex-wrap: wrap;
 }
 
@@ -80,15 +89,19 @@ body {
 .form-label {
   font-weight: 500;
   color: #555;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
+  display: block;
+  line-height: 1.2;
 }
 
+/* Поля ввода */
 .form-control, .form-select {
   border: 1px solid #ddd;
   border-radius: 8px;
-  padding: 4px; /* Уменьшаем padding */
-  font-size: 12px; /* Уменьшаем шрифт */
+  padding: 4px;
+  font-size: 12px;
   transition: border-color 0.3s, box-shadow 0.3s;
+  width: 100%;
 }
 
 .form-control:focus, .form-select:focus {
@@ -102,12 +115,18 @@ body {
   background-color: #007bff;
   border: none;
   border-radius: 8px;
-  padding: 6px 12px; /* Уменьшаем размер кнопки */
+  padding: 6px 12px;
   font-size: 12px;
   font-weight: 500;
   transition: background-color 0.3s, transform 0.1s;
 }
 
+/* Опускаем кнопки в форме "Данные кредита" */
+.form-container.credit-data .btn-primary {
+  margin-top: 31px; /* Чуть опускаем кнопки, чтобы они были на одном уровне с кнопками второй формы */
+}
+
+/* Эффекты для кнопок */
 .btn-primary:hover {
   background-color: #0056b3;
   transform: translateY(-1px);
@@ -218,7 +237,7 @@ body {
   .form-container {
     flex: 1;
     border-right: none;
-    border-bottom: 1px solid #ddd; /* Линия снизу на мобильных */
+    border-bottom: 1px solid #ddd;
   }
   .form-container:last-child {
     border-bottom: none;

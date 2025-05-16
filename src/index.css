@@ -119,17 +119,19 @@ body {
   font-size: 12px;
   font-weight: 500;
   transition: background-color 0.3s, transform 0.1s;
+  color: #fff; /* Белый текст */
 }
 
 /* Опускаем кнопки в форме "Данные кредита" */
 .form-container.credit-data .btn-primary {
-  margin-top: 31px; /* Чуть опускаем кнопки, чтобы они были на одном уровне с кнопками второй формы */
+  margin-top: 31px;
 }
 
 /* Эффекты для кнопок */
 .btn-primary:hover {
   background-color: #0056b3;
   transform: translateY(-1px);
+  color: #fff; /* Белый текст при наведении */
 }
 
 .btn-primary:active {

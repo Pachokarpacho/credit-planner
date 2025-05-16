@@ -10,13 +10,13 @@ interface RecalculationInputFormProps {
 
 const RecalculationInputForm: React.FC<RecalculationInputFormProps> = ({ onAddPayment, maxMonth }) => {
   const [monthIndex, setMonthIndex] = useState<number>(1);
-  const [extraPayment, setExtraPayment] = useState<string>('');
+  const [extraPayment, setExtraPayment] = useState<number>(0);
   const [recalcType, setRecalcType] = useState<'reduceTerm' | 'reducePayment'>('reduceTerm');
 
   const handleSubmit = () => {
     if (monthIndex < 1 || monthIndex > maxMonth || !extraPayment || Number(extraPayment) <= 0) return;
     onAddPayment(monthIndex-1, new Big(extraPayment), recalcType);
-    setExtraPayment('');
+    setExtraPayment(0);
     setMonthIndex(1);
   };
 
@@ -41,7 +41,7 @@ const RecalculationInputForm: React.FC<RecalculationInputFormProps> = ({ onAddPa
             <Form.Control
               type="number"
               value={extraPayment}
-              onChange={(e) => setExtraPayment(e.target.value)}
+              onChange={(e) => setExtraPayment(Number(e.target.value))}
               placeholder="Введите сумму"
               className="form-control"
               min="0"

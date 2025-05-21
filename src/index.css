@@ -120,6 +120,7 @@ body {
   font-weight: 500;
   transition: background-color 0.3s, transform 0.1s;
   color: #fff; /* Белый текст */
+  margin-right: 6px;
 }
 
 /* Опускаем кнопки в форме "Данные кредита" */

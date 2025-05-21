@@ -268,6 +268,9 @@ const PaymentScheduleTable: React.FC<PaymentScheduleTableProps> = ({ schedule, o
           <Button variant="primary" onClick={onExport} className="btn-primary">
             Экспорт в PDF
           </Button>
+          <Button variant="primary" className="btn-primary" disabled>
+            Импорт из PDF
+          </Button>
         </div>
       </div>
     </div>

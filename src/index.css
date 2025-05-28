@@ -232,6 +232,11 @@ body {
   justify-content: flex-end;
 }
 
+.text {
+  font-size: 18px;
+  line-height: 23px;
+}
+
 /* Адаптивность */
 @media (max-width: 768px) {
   .forms-container {

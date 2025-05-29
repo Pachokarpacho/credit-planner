@@ -85,6 +85,8 @@ const CreditInputForm: React.FC<CreditInputFormProps> = ({ onExport }) => {
                     onChange={(e) => setLoanAmount(Number(e.target.value))}
                     placeholder="Введите сумму"
                     className="form-control"
+                    style={{fontSize: '1rem'}}
+                    
                   />
                 </Form.Group>
                 <Form.Group className="form-group">
@@ -95,16 +97,18 @@ const CreditInputForm: React.FC<CreditInputFormProps> = ({ onExport }) => {
                     onChange={(e) => setAnnualRate(Number(e.target.value))}
                     placeholder="Введите ставку"
                     className="form-control"
+                    style={{fontSize: '1rem'}}
                   />
                 </Form.Group>
                 <Form.Group className="form-group">
-                  <Form.Label className="form-label">Срок кредита (месяцы)</Form.Label>
+                  <Form.Label className="form-label">Срок кредита (мес.)</Form.Label>
                   <Form.Control
                     type="number"
                     value={termMonths}
                     onChange={(e) => setTermMonths(Number(e.target.value))}
                     placeholder="Введите срок"
                     className="form-control"
+                    style={{fontSize: '1rem'}}
                   />
                 </Form.Group>
                 <Form.Group className="form-group">
@@ -114,6 +118,7 @@ const CreditInputForm: React.FC<CreditInputFormProps> = ({ onExport }) => {
                       value={paymentType}
                       onChange={(e) => handlePaymentTypeChange(e.target.value)}
                       className="form-select"
+                      style={{fontSize: '1rem'}}
                     >
                       <option value="annuity">Аннуитетный</option>
                       <option value="differentiated">Дифференцированный</option>
@@ -124,7 +129,7 @@ const CreditInputForm: React.FC<CreditInputFormProps> = ({ onExport }) => {
                     />
                   </div>
                 </Form.Group>
-                <Button variant="primary" onClick={handleCalculate} className="btn-primary">
+                <Button variant="primary" onClick={handleCalculate} className="btn-primary" style={{fontSize: '1rem'}}>
                   Рассчитать
                 </Button>
               </div>

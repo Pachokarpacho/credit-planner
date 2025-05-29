@@ -35,6 +35,7 @@ const RecalculationInputForm: React.FC<RecalculationInputFormProps> = ({ onAddPa
               className="form-control"
               min="1"
               max={maxMonth}
+              style={{fontSize: '1rem'}}
             />
           </Form.Group>
           <Form.Group className="form-group">
@@ -46,6 +47,7 @@ const RecalculationInputForm: React.FC<RecalculationInputFormProps> = ({ onAddPa
               placeholder="Введите сумму"
               className="form-control"
               min="0"
+              style={{fontSize: '1rem'}}
             />
           </Form.Group>
           <Form.Group className="form-group">
@@ -55,6 +57,7 @@ const RecalculationInputForm: React.FC<RecalculationInputFormProps> = ({ onAddPa
                 value={recalcType}
                 onChange={(e) => setRecalcType(e.target.value as 'reduceTerm' | 'reducePayment')}
                 className="form-select"
+                style={{fontSize: '1rem'}}
               >
                 <option value="reduceTerm">Уменьшение срока</option>
                 <option value="reducePayment">Уменьшение платежа</option>
@@ -66,7 +69,7 @@ const RecalculationInputForm: React.FC<RecalculationInputFormProps> = ({ onAddPa
               />
             </div>
           </Form.Group>
-          <Button variant="primary" onClick={handleSubmit} className="btn-primary">
+          <Button variant="primary" onClick={handleSubmit} className="btn-primary" style={{fontSize: '1rem'}}>
             Добавить платеж
           </Button>
         </div>

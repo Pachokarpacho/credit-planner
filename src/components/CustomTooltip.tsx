@@ -19,7 +19,8 @@ const CustomTooltip: React.FC<{ text: string; id: string }> = ({ text, id }) => 
           ref={ref}
           {...triggerHandler}
           className="tooltip-icon"
-          style={{ fontSize: '20px' }} // Увеличиваем размер напрямую через inline-стиль
+          style={{ fontSize: '25px' }} // Увеличиваем размер напрямую через inline-стиль
+          
         >
           <FontAwesomeIcon icon={faQuestionCircle} />
         </span>

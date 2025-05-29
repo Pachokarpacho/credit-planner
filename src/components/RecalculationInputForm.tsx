@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button} from 'react-bootstrap';
 import Big from 'big.js';
+import CustomTooltip from './CustomTooltip'; // Импортируйте кастомный компонент
 import '../index.css';
 
 interface RecalculationInputFormProps {
@@ -49,14 +50,21 @@ const RecalculationInputForm: React.FC<RecalculationInputFormProps> = ({ onAddPa
           </Form.Group>
           <Form.Group className="form-group">
             <Form.Label className="form-label">Тип перерасчета</Form.Label>
-            <Form.Select
-              value={recalcType}
-              onChange={(e) => setRecalcType(e.target.value as 'reduceTerm' | 'reducePayment')}
-              className="form-select"
-            >
-              <option value="reduceTerm">Уменьшение срока</option>
-              <option value="reducePayment">Уменьшение платежа</option>
-            </Form.Select>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Form.Select
+                value={recalcType}
+                onChange={(e) => setRecalcType(e.target.value as 'reduceTerm' | 'reducePayment')}
+                className="form-select"
+              >
+                <option value="reduceTerm">Уменьшение срока</option>
+                <option value="reducePayment">Уменьшение платежа</option>
+              </Form.Select>
+              <CustomTooltip
+                text="При выборе перерасчета на уменьшение срока, если это возможно, уменьшится количество месяцев кредита, при этом сохраняя сумму ежемесячного платежа. При выборе перерасчета на уменьшение платежа сохранится количество месяцев кредита, но уменьшатся последующие ежемесячные платежи."
+                id="recalc-type-tooltip"
+                
+              />
+            </div>
           </Form.Group>
           <Button variant="primary" onClick={handleSubmit} className="btn-primary">
             Добавить платеж

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button} from 'react-bootstrap';
 import Big from 'big.js';
 import { Loan } from '../models/Loan';
 import { PaymentSchedule } from '../models/PaymentSchedule';
 import PaymentScheduleTable from './PaymentScheduleTable';
 import RecalculationInputForm from './RecalculationInputForm';
 import { RecalculationController } from '../controllers/RecalculationController';
+import CustomTooltip from './CustomTooltip'; // Импортируйте кастомный компонент
 import '../index.css';
 
 interface CreditInputFormProps {
@@ -108,14 +109,20 @@ const CreditInputForm: React.FC<CreditInputFormProps> = ({ onExport }) => {
                 </Form.Group>
                 <Form.Group className="form-group">
                   <Form.Label className="form-label">Тип платежа</Form.Label>
-                  <Form.Select
-                    value={paymentType}
-                    onChange={(e) => handlePaymentTypeChange(e.target.value)}
-                    className="form-select"
-                  >
-                    <option value="annuity">Аннуитетный</option>
-                    <option value="differentiated">Дифференцированный</option>
-                  </Form.Select>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <Form.Select
+                      value={paymentType}
+                      onChange={(e) => handlePaymentTypeChange(e.target.value)}
+                      className="form-select"
+                    >
+                      <option value="annuity">Аннуитетный</option>
+                      <option value="differentiated">Дифференцированный</option>
+                    </Form.Select>
+                    <CustomTooltip
+                      text="При дифференцированной схеме сумма выплаты по основному долгу будет неизменной, а выплаты по процентам будут постепенно снижаться. Аннуитетная схема подразумевает неизменный ежемесячный взнос, сумма процентов которого будет постепенно падать, а сумма погашения основного долга — расти."
+                      id="payment-type-tooltip"
+                    />
+                  </div>
                 </Form.Group>
                 <Button variant="primary" onClick={handleCalculate} className="btn-primary">
                   Рассчитать

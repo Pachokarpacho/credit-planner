@@ -237,6 +237,28 @@ body {
   line-height: 23px;
 }
 
+/* Стили для кастомного тултипа */
+.custom-tooltip {
+  background-color: #f8f9fa !important;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  max-width: 300px;
+  font-size: 14px;
+  color: #333;
+}
+
+.tooltip-content {
+  line-height: 1.5;
+}
+
+.tooltip-icon {
+  cursor: pointer;
+  margin-left: 5px;
+  font-size: 16px;
+  color: #007bff;
+}
+
 /* Адаптивность */
 @media (max-width: 768px) {
   .forms-container {
